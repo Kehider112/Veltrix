@@ -1,0 +1,967 @@
+
+:root {
+  color-scheme: dark;
+  --bg: #0b1020;
+  --text: #f4f5ff;
+  --muted: #9ba5c2;
+  --panel: rgba(24, 32, 59, 0.58);
+  --panel-border: rgba(255, 255, 255, 0.13);
+  --key: rgba(255, 255, 255, 0.075);
+  --key-hover: rgba(255, 255, 255, 0.15);
+  --display: rgba(5, 10, 27, 0.48);
+  --accent: #9d8cff;
+  --accent-two: #66d9ff;
+  --accent-text: #fff;
+  --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.light {
+  color-scheme: light;
+  --bg: #edf2ff;
+  --text: #202744;
+  --muted: #68718c;
+  --panel: rgba(255, 255, 255, 0.62);
+  --panel-border: rgba(75, 89, 143, 0.16);
+  --key: rgba(255, 255, 255, 0.64);
+  --key-hover: rgba(215, 224, 255, 0.9);
+  --display: rgba(255, 255, 255, 0.58);
+  --accent: #7661e9;
+  --accent-two: #298bbd;
+  --accent-text: #fff;
+  --shadow: 0 24px 70px rgba(56, 74, 130, 0.14);
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(ellipse at 15% 5%, rgba(91, 87, 210, 0.18), transparent 36%),
+    radial-gradient(ellipse at 90% 80%, rgba(47, 162, 215, 0.12), transparent 36%),
+    var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  transition: background 0.45s ease, color 0.35s ease;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent-two);
+  outline-offset: 3px;
+}
+
+/* Fondo ambiental animado */
+
+.ambient {
+  position: fixed;
+  z-index: -1;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.27;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.ambient-one {
+  top: 5%;
+  left: -120px;
+  background: #6e5bff;
+  animation: float-one 16s ease-in-out infinite alternate;
+}
+
+.ambient-two {
+  right: -100px;
+  top: 35%;
+  background: #26bce8;
+  animation: float-two 19s ease-in-out infinite alternate;
+}
+
+.ambient-three {
+  bottom: -180px;
+  left: 35%;
+  background: #a24cff;
+  opacity: 0.17;
+  animation: float-three 22s ease-in-out infinite alternate;
+}
+
+@keyframes float-one {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(70px, 50px, 0) scale(1.16); }
+}
+
+@keyframes float-two {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-65px, 80px, 0) scale(1.12); }
+}
+
+@keyframes float-three {
+  from { transform: translate3d(0, 0, 0) scale(0.95); }
+  to { transform: translate3d(45px, -45px, 0) scale(1.12); }
+}
+
+/* Entrada de la aplicación */
+
+.page {
+  width: min(1060px, calc(100% - 36px));
+  margin: 0 auto;
+  padding: 38px 0 22px;
+  animation: page-enter 0.85s var(--ease-out) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 30px;
+  animation: brand-enter 0.8s var(--ease-out) both;
+  animation-delay: 0.08s;
+}
+
+@keyframes brand-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.brand-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 17px;
+  background: linear-gradient(135deg, #a58cff, #5c9df7 65%, #58d9ee);
+  box-shadow: 0 8px 30px rgba(119, 111, 255, 0.27);
+  color: white;
+  font-size: 27px;
+  font-weight: 800;
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s ease;
+}
+
+.brand-icon:hover {
+  transform: rotate(-8deg) scale(1.07);
+  box-shadow: 0 12px 36px rgba(119, 111, 255, 0.4);
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 27px;
+  letter-spacing: -1.1px;
+  font-weight: 800;
+}
+
+.tagline {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  transition: color 0.35s ease;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 14px;
+  background: var(--key);
+  color: var(--text);
+  font-size: 22px;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s var(--ease-out),
+    box-shadow 0.3s ease;
+}
+
+.icon-button:hover {
+  background: var(--key-hover);
+  transform: translateY(-2px) rotate(5deg);
+  box-shadow: 0 6px 20px rgba(105, 105, 240, 0.13);
+}
+
+.icon-button:active {
+  transform: scale(0.92);
+}
+
+.theme-toggle {
+  margin-left: auto;
+}
+
+/* Paneles de cristal */
+
+.workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(250px, 0.8fr);
+  align-items: start;
+  gap: 22px;
+}
+
+.glass-panel {
+  border: 1px solid var(--panel-border);
+  border-radius: 28px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  backdrop-filter: blur(24px) saturate(145%);
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.calculator {
+  padding: 23px;
+  animation: panel-enter 0.8s var(--ease-out) both;
+  animation-delay: 0.12s;
+}
+
+.history-panel {
+  min-height: 330px;
+  padding: 23px 19px;
+  animation: panel-enter 0.8s var(--ease-out) both;
+  animation-delay: 0.24s;
+}
+
+@keyframes panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Pantalla de la calculadora */
+
+.display {
+  min-height: 148px;
+  padding: 18px 19px;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  border-radius: 21px;
+  background: var(--display);
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.display:focus-within {
+  box-shadow: 0 0 0 3px rgba(157, 140, 255, 0.08);
+}
+
+.display-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.display-label,
+.eyebrow {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.clear-button,
+.text-button {
+  border: 0;
+  background: transparent;
+  color: var(--accent-two);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.25s ease, opacity 0.25s ease, transform 0.25s var(--ease-out);
+}
+
+.clear-button:hover,
+.text-button:hover {
+  opacity: 0.8;
+  transform: translateY(-1px);
+}
+
+.expression {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 0.08em;
+  min-height: 38px;
+  margin-top: 13px;
+  overflow-x: auto;
+  color: var(--muted);
+  font-size: 17px;
+  text-align: right;
+  scrollbar-width: thin;
+  animation: text-appear 0.2s ease;
+}
+
+.result {
+  margin-top: 3px;
+  overflow-x: auto;
+  color: var(--text);
+  font-size: clamp(27px, 4vw, 37px);
+  font-weight: 600;
+  letter-spacing: -1.1px;
+  text-align: right;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  transition: color 0.3s ease;
+}
+
+@keyframes text-appear {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+/* Presentación matemática */
+
+.math-space {
+  width: 0.08em;
+  flex: 0 0 0.08em;
+}
+
+.math-operator {
+  padding-inline: 0.06em;
+}
+
+.math-fraction {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.12;
+  font-size: 0.78em;
+  margin: 0.08em 0.12em;
+  min-width: 1.15em;
+  flex-shrink: 0;
+}
+
+.fraction-numerator,
+.fraction-denominator {
+  display: block;
+  padding: 0.08em 0.2em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.fraction-numerator {
+  border-bottom: 1.5px solid currentColor;
+}
+
+.fraction-denominator {
+  padding-top: 0.12em;
+}
+
+.math-radical {
+  display: inline-flex;
+  align-items: stretch;
+  vertical-align: middle;
+  margin: 0 0.08em;
+  line-height: 1.2;
+}
+
+.radical-symbol {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1.3em;
+  line-height: 1;
+  padding-right: 0.04em;
+}
+
+.radicand {
+  display: inline-flex;
+  align-items: center;
+  border-top: 1.5px solid currentColor;
+  padding: 0.02em 0.14em 0 0.08em;
+  min-height: 1.1em;
+}
+
+.math-exponent {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.68em;
+  line-height: 1;
+  margin-left: -0.08em;
+  margin-right: 0.04em;
+  transform: translateY(-0.3em);
+}
+
+.expression .math-fraction,
+.expression .math-radical {
+  flex-shrink: 0;
+}
+
+/* Selector DEG / RAD */
+
+.mode-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 17px 0;
+}
+
+.mode-label {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.mode-toggle {
+  padding: 7px 12px;
+  border: 1px solid rgba(157, 140, 255, 0.45);
+  border-radius: 10px;
+  background: rgba(157, 140, 255, 0.16);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.25s var(--ease-out), background 0.3s ease, border-color 0.3s ease;
+}
+
+.mode-toggle:hover {
+  transform: translateY(-2px);
+  background: rgba(157, 140, 255, 0.25);
+}
+
+.mode-toggle:active {
+  transform: scale(0.94);
+}
+
+.mode-hint {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+/* Botones científicos y numéricos */
+
+.scientific-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.key {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 55px;
+  padding: 8px 3px;
+  overflow: hidden;
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--key);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 500;
+  cursor: pointer;
+  isolation: isolate;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s ease;
+}
+
+.key::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    transparent 15%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 85%
+  );
+  content: "";
+  opacity: 0;
+  transform: translateX(-70%);
+  transition: opacity 0.3s ease, transform 0.55s var(--ease-out);
+  pointer-events: none;
+}
+
+.key:hover {
+  transform: translateY(-3px);
+  border-color: rgba(157, 140, 255, 0.42);
+  background: var(--key-hover);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.key:hover::before {
+  opacity: 1;
+  transform: translateX(70%);
+}
+
+.key:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: none;
+}
+
+.scientific-grid .key {
+  min-height: 43px;
+  border-radius: 13px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.function {
+  color: var(--accent);
+}
+
+.function:hover {
+  box-shadow: 0 6px 18px rgba(157, 140, 255, 0.13);
+}
+
+.utility {
+  color: var(--accent-two);
+}
+
+.operator {
+  background: rgba(110, 129, 220, 0.17);
+  color: var(--accent-two);
+  font-size: 21px;
+}
+
+.operator:hover {
+  background: rgba(110, 129, 220, 0.27);
+}
+
+.equals {
+  border-color: transparent;
+  background: linear-gradient(135deg, #9b82ff, #657ef5 58%, #4dbce5);
+  box-shadow: 0 8px 22px rgba(105, 105, 240, 0.23);
+  color: var(--accent-text);
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.equals:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, #b29fff, #7f93ff 58%, #6bd5f2);
+  box-shadow: 0 12px 28px rgba(105, 105, 240, 0.34);
+}
+
+.equals:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 12px rgba(105, 105, 240, 0.2);
+}
+
+.zero {
+  grid-column: span 1;
+}
+
+.keyboard-hint {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  text-align: center;
+  transition: color 0.3s ease;
+}
+
+/* Historial */
+
+.history-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid var(--panel-border);
+}
+
+.history-heading h2,
+.dialog-heading h2 {
+  margin: 7px 0 0;
+  font-size: 20px;
+  letter-spacing: -0.5px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-height: 420px;
+  padding-top: 12px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--panel-border) transparent;
+}
+
+.history-empty {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  padding: 40px 12px;
+  color: var(--muted);
+  text-align: center;
+  animation: history-enter 0.4s var(--ease-out) both;
+}
+
+.history-empty p {
+  max-width: 170px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.empty-symbol {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+  background: var(--key);
+  color: var(--accent);
+  font-size: 24px;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.history-empty:hover .empty-symbol {
+  transform: rotate(10deg) scale(1.05);
+}
+
+.history-item {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  background: var(--key);
+  color: var(--text);
+  text-align: right;
+  cursor: pointer;
+  animation: history-enter 0.35s var(--ease-out) both;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s var(--ease-out),
+    box-shadow 0.25s ease;
+}
+
+.history-item:nth-child(2) { animation-delay: 0.03s; }
+.history-item:nth-child(3) { animation-delay: 0.06s; }
+.history-item:nth-child(4) { animation-delay: 0.09s; }
+.history-item:nth-child(5) { animation-delay: 0.12s; }
+
+@keyframes history-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.history-item:hover {
+  border-color: var(--panel-border);
+  background: var(--key-hover);
+  transform: translateX(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+}
+
+.history-item:active {
+  transform: scale(0.985);
+}
+
+.history-expression {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.history-result {
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Pie de página */
+
+.footer {
+  padding: 31px 0 8px;
+  text-align: center;
+  animation: page-enter 0.8s var(--ease-out) both;
+  animation-delay: 0.25s;
+}
+
+.footer-line {
+  height: 1px;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, transparent, var(--panel-border), transparent);
+}
+
+.footer-brand {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.footer-brand span {
+  color: var(--accent);
+}
+
+.copyright {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+  transition: color 0.3s ease;
+}
+
+/* Editor de fracciones */
+
+.fraction-dialog {
+  width: min(390px, calc(100% - 30px));
+  padding: 0;
+  border: 1px solid var(--panel-border);
+  border-radius: 25px;
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.fraction-dialog[open] {
+  animation: dialog-enter 0.3s var(--ease-out) both;
+}
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.fraction-dialog::backdrop {
+  background: rgba(2, 5, 16, 0.65);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.fraction-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+}
+
+.dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.fraction-card label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.fraction-card input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  background: var(--key);
+  color: var(--text);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.fraction-card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(157, 140, 255, 0.12);
+  outline: none;
+}
+
+.fraction-divider {
+  height: 1px;
+  margin: 2px 0;
+  background: var(--panel-border);
+}
+
+.fraction-error {
+  min-height: 16px;
+  margin: 0;
+  color: #ff858e;
+  font-size: 12px;
+}
+
+.fraction-submit {
+  min-height: 48px;
+  margin-top: 2px;
+  border-radius: 13px;
+  cursor: pointer;
+}
+
+/* Adaptación a móviles */
+
+@media (max-width: 760px) {
+  .page {
+    width: min(500px, calc(100% - 24px));
+    padding-top: 24px;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .calculator {
+    padding: 16px;
+    border-radius: 23px;
+  }
+
+  .history-panel {
+    min-height: 180px;
+    border-radius: 23px;
+  }
+
+  .history-list {
+    max-height: 240px;
+  }
+
+  .key {
+    min-height: 53px;
+    border-radius: 14px;
+  }
+
+  .scientific-grid,
+  .keypad {
+    gap: 7px;
+  }
+
+  .scientific-grid .key {
+    min-height: 42px;
+    font-size: 12px;
+  }
+
+  .display {
+    padding: 16px;
+  }
+
+  .footer {
+    padding-top: 24px;
+  }
+
+  .ambient {
+    opacity: 0.18;
+  }
+}
+
+@media (max-width: 480px) {
+  .expression {
+    gap: 0.04em;
+    font-size: 15px;
+  }
+
+  .math-fraction {
+    font-size: 0.72em;
+  }
+
+  .radical-symbol {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 360px) {
+  .calculator {
+    padding: 11px;
+  }
+
+  .key {
+    min-height: 47px;
+    font-size: 16px;
+  }
+
+  .scientific-grid .key {
+    font-size: 11px;
+  }
+
+  .mode-row {
+    gap: 7px;
+  }
+
+  .mode-label,
+  .mode-hint {
+    font-size: 9px;
+  }
+}
+
+/* Accesibilidad: respetar la preferencia de movimiento reducido */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .ambient {
+    transform: none !important;
+  }
+}
