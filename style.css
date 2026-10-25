@@ -966,58 +966,66 @@ input:focus-visible {
   }
 }
 
-/* Optimización de burbujas para móviles */
+
+/* MODO DE ALTO RENDIMIENTO PARA MÓVILES */
 @media (max-width: 768px) {
+
+  /* Desactivar las burbujas animadas y sus desenfoques */
   .ambient {
-    animation-play-state: running;
-    filter: blur(45px);
-    opacity: 0.18;
-    will-change: transform;
-    pointer-events: none;
+    animation: none !important;
+    filter: none !important;
+    transform: none !important;
+    will-change: auto !important;
+    opacity: 0.08;
   }
 
+  /* Eliminar efectos de vidrio costosos */
+  *,
+  *::before,
+  *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Reducir sombras */
   .glass-panel,
   .calculator,
   .history-panel,
-  .fraction-card {
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-  }
-
-  .glass-panel {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  }
-
+  .fraction-card,
   button,
   .key,
   .icon-button {
-    transition-duration: 0.15s;
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
-}
 
-
-/* Respuesta rápida de la calculadora en móviles */
-@media (max-width: 768px) {
+  /* Eliminar transiciones y animaciones decorativas */
   button,
   .key,
-  .icon-button {
-    transition-property: background-color, color, opacity;
-    transition-duration: 0.12s;
-    animation: none;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
+  .icon-button,
+  .glass-panel,
+  .calculator,
+  .history-panel,
+  .fraction-card,
+  .ambient,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
   }
 
+  /* Evitar efectos de movimiento al pulsar */
   button:active,
   .key:active,
   .icon-button:active {
-    transform: none;
+    transform: none !important;
   }
 
-  .glass-panel,
-  .calculator,
-  .history-panel,
-  .fraction-card {
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+  /* Mantener una respuesta táctil directa */
+  button,
+  .key,
+  .icon-button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 }
