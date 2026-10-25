@@ -967,65 +967,43 @@ input:focus-visible {
 }
 
 
-/* MODO DE ALTO RENDIMIENTO PARA MÓVILES */
+/* OPTIMIZACIÓN PARA MÓVILES */
 @media (max-width: 768px) {
 
-  /* Desactivar las burbujas animadas y sus desenfoques */
+  /* Burbujas más ligeras, pero animadas */
   .ambient {
-    animation: none !important;
-    filter: none !important;
-    transform: none !important;
-    will-change: auto !important;
-    opacity: 0.08;
+    filter: blur(25px);
+    opacity: 0.12;
+    will-change: transform;
+    pointer-events: none;
   }
 
-  /* Eliminar efectos de vidrio costosos */
-  *,
-  *::before,
-  *::after {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-
-  /* Reducir sombras */
+  /* Reducir el coste de los efectos de vidrio */
   .glass-panel,
   .calculator,
   .history-panel,
-  .fraction-card,
+  .fraction-card {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+  }
+
+  /* Conservar animaciones de los botones */
   button,
   .key,
   .icon-button {
-    box-shadow: none !important;
-    text-shadow: none !important;
+    transition: transform 0.12s ease,
+                background-color 0.12s ease,
+                color 0.12s ease,
+                opacity 0.12s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  /* Eliminar transiciones y animaciones decorativas */
-  button,
-  .key,
-  .icon-button,
-  .glass-panel,
-  .calculator,
-  .history-panel,
-  .fraction-card,
-  .ambient,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-
-  /* Evitar efectos de movimiento al pulsar */
+  /* Mantener la reacción al pulsar */
   button:active,
   .key:active,
   .icon-button:active {
-    transform: none !important;
-  }
-
-  /* Mantener una respuesta táctil directa */
-  button,
-  .key,
-  .icon-button {
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    transform: scale(0.96);
   }
 }
