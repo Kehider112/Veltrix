@@ -966,41 +966,31 @@ input:focus-visible {
   }
 }
 
-/* Optimización de rendimiento para celulares */
+/* Optimización de burbujas para móviles */
 @media (max-width: 768px) {
   .ambient {
-    animation: none !important;
-    filter: none !important;
-    opacity: 0.35;
+    animation-play-state: running;
+    filter: blur(45px);
+    opacity: 0.18;
+    will-change: transform;
+    pointer-events: none;
   }
 
   .glass-panel,
   .calculator,
   .history-panel,
   .fraction-card {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  button,
-  .key,
-  .icon-button {
-    transition: none !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 
   .glass-panel {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
-}
 
-/* Respetar la preferencia de movimiento reducido */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  button,
+  .key,
+  .icon-button {
+    transition-duration: 0.15s;
   }
 }
