@@ -1007,3 +1007,84 @@ input:focus-visible {
     transform: scale(0.96);
   }
 }
+
+/* OPTIMIZACIÓN VISUAL PARA MÓVILES
+   Se conservan las animaciones de los botones. */
+
+@media (max-width: 760px) {
+  /* Fondo sencillo, sin degradados decorativos */
+  body {
+    background: var(--bg);
+  }
+
+  /* Eliminar las burbujas ambientales */
+  .ambient {
+    display: none !important;
+    animation: none !important;
+  }
+
+  /* Quitar las animaciones de entrada */
+  .page,
+  .brand,
+  .calculator,
+  .history-panel {
+    animation: none !important;
+  }
+
+  /* Eliminar el efecto de cristal y las sombras pesadas */
+  .glass-panel,
+  .calculator,
+  .history-panel,
+  .fraction-card {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  /* Eliminar efectos decorativos de la pantalla */
+  .display {
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  /* Evitar movimientos decorativos al tocar elementos
+     que no son botones */
+  .brand-icon:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Mantener las animaciones de los botones */
+  button,
+  .key,
+  .icon-button,
+  .clear-button,
+  .text-button,
+  .mode-toggle {
+    transition:
+      transform 0.12s ease,
+      background-color 0.12s ease,
+      color 0.12s ease,
+      border-color 0.12s ease,
+      opacity 0.12s ease,
+      box-shadow 0.12s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:active,
+  .key:active,
+  .icon-button:active,
+  .mode-toggle:active {
+    transform: scale(0.96);
+  }
+
+  /* Quitar elevaciones al pasar el cursor en pantallas táctiles */
+  .key:hover,
+  .icon-button:hover,
+  .mode-toggle:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
