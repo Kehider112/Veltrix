@@ -994,3 +994,30 @@ input:focus-visible {
     transition-duration: 0.15s;
   }
 }
+
+
+/* Respuesta rápida de la calculadora en móviles */
+@media (max-width: 768px) {
+  button,
+  .key,
+  .icon-button {
+    transition-property: background-color, color, opacity;
+    transition-duration: 0.12s;
+    animation: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  button:active,
+  .key:active,
+  .icon-button:active {
+    transform: none;
+  }
+
+  .glass-panel,
+  .calculator,
+  .history-panel,
+  .fraction-card {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.10);
+  }
+}
