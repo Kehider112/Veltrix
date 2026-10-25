@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101426">
+  <meta name="description" content="Veltrix: una calculadora científica moderna. Tus cálculos, sin límites.">
+  <title>Veltrix — Calculadora científica</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <div class="ambient ambient-three"></div>
+
+  <main class="page">
+    <header class="brand">
+      <div class="brand-icon">V</div>
+
+      <div>
+        <h1>Veltrix</h1>
+        <p class="tagline">Tus cálculos, sin límites.</p>
+      </div>
+
+      <button
+        id="themeToggle"
+        class="icon-button theme-toggle"
+        aria-label="Cambiar tema"
+        title="Cambiar tema"
+        type="button"
+      >☼</button>
+    </header>
+
+    <div class="workspace">
+      <section class="calculator glass-panel" aria-label="Calculadora científica">
+        <div class="display">
+          <div class="display-top">
+            <span class="display-label">EXPRESIÓN</span>
+            <button id="clearBtn" class="clear-button" title="Borrar todo" type="button">AC</button>
+          </div>
+
+          <div id="expression" class="expression" aria-live="polite">0</div>
+          <div id="result" class="result" aria-live="polite">0</div>
+        </div>
+
+        <div class="mode-row">
+          <span class="mode-label">Modo angular</span>
+          <button id="angleToggle" class="mode-toggle" aria-label="Cambiar modo angular" type="button">DEG</button>
+          <span class="mode-hint">Grados / radianes</span>
+        </div>
+
+        <div class="scientific-grid">
+          <button class="key function" data-function="sin" type="button">sin</button>
+          <button class="key function" data-function="cos" type="button">cos</button>
+          <button class="key function" data-function="tan" type="button">tan</button>
+          <button class="key function" data-action="pi" type="button">π</button>
+          <button class="key function" data-action="sqrt" type="button">√</button>
+
+          <button class="key function" data-action="square" type="button">x²</button>
+          <button class="key function" data-action="power" type="button">xʸ</button>
+          <button class="key function" data-action="fraction" type="button">a/b</button>
+          <button class="key function" data-value="(" type="button">(</button>
+          <button class="key function" data-value=")" type="button">)</button>
+        </div>
+
+        <div class="keypad">
+          <button class="key utility" data-action="clear-entry" type="button">CE</button>
+          <button class="key utility" data-action="backspace" type="button">⌫</button>
+          <button class="key utility" data-action="sign" type="button">±</button>
+          <button class="key operator" data-value="÷" type="button">÷</button>
+
+          <button class="key" data-value="7" type="button">7</button>
+          <button class="key" data-value="8" type="button">8</button>
+          <button class="key" data-value="9" type="button">9</button>
+          <button class="key operator" data-value="×" type="button">×</button>
+
+          <button class="key" data-value="4" type="button">4</button>
+          <button class="key" data-value="5" type="button">5</button>
+          <button class="key" data-value="6" type="button">6</button>
+          <button class="key operator" data-value="-" type="button">−</button>
+
+          <button class="key" data-value="1" type="button">1</button>
+          <button class="key" data-value="2" type="button">2</button>
+          <button class="key" data-value="3" type="button">3</button>
+          <button class="key operator" data-value="+" type="button">+</button>
+
+          <button class="key utility" data-value="%" type="button">%</button>
+          <button class="key zero" data-value="0" type="button">0</button>
+          <button class="key" data-value="." type="button">.</button>
+          <button class="key equals" data-action="equals" type="button">=</button>
+        </div>
+
+        <p class="keyboard-hint">También puedes usar el teclado de tu computador.</p>
+      </section>
+
+      <aside class="history-panel glass-panel">
+        <div class="history-heading">
+          <div>
+            <span class="eyebrow">TUS OPERACIONES</span>
+            <h2>Historial</h2>
+          </div>
+
+          <button id="clearHistory" class="text-button" type="button">Limpiar</button>
+        </div>
+
+        <div id="historyList" class="history-list">
+          <div class="history-empty">
+            <span class="empty-symbol">∑</span>
+            <p>Tus cálculos aparecerán aquí.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-line"></div>
+      <p class="footer-brand">Veltrix <span>·</span> Calcula a tu manera.</p>
+      <p class="copyright">© <span id="currentYear"></span> Veltrix. Todos los derechos reservados.</p>
+    </footer>
+  </main>
+
+  <dialog id="fractionDialog" class="fraction-dialog">
+    <form id="fractionForm" class="fraction-card">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">EDITOR DE FRACCIONES</span>
+          <h2>Crear fracción</h2>
+        </div>
+
+        <button
+          type="button"
+          id="closeFraction"
+          class="icon-button"
+          aria-label="Cerrar"
+        >×</button>
+      </div>
+
+      <label for="numerator">Numerador</label>
+      <input
+        id="numerator"
+        type="text"
+        inputmode="decimal"
+        placeholder="Ej. 3"
+        autocomplete="off"
+        required
+      >
+
+      <div class="fraction-divider"></div>
+
+      <label for="denominator">Denominador</label>
+      <input
+        id="denominator"
+        type="text"
+        inputmode="decimal"
+        placeholder="Ej. 4"
+        autocomplete="off"
+        required
+      >
+
+      <p id="fractionError" class="fraction-error" aria-live="polite"></p>
+
+      <button class="key equals fraction-submit" type="submit">
+        Insertar fracción
+      </button>
+    </form>
+  </dialog>
+</body>
+</html>
